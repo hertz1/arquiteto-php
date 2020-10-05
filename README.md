@@ -117,3 +117,18 @@ O próximo passo é gerar um token válido para autenticar na aplicação. Como 
 
 Clique em *`Create Signed JWT`* e guarde o token gerado.
 
+### Realizando requisições
+
+Neste exemplo será utilizado o [Postman](https://www.postman.com/) para realizar requisições, mas pode ser utilizado outro utilitário de preferência.
+
+#### Autenticação
+
+Clique na aba `Authorization`. Em `type`, selecione `Bearer Token` e informe o token gerado no [passo anterior](#api-token).
+
+#### Headers
+
+Informe o cabeçalho `Accept: application/json` para que a API possa retornar as repostas no formato correto.
+
+#### URL
+
+Defina uma URL de acordo com a [documentação da API](#api). Ex.: `GET http://localhost/addresses`. Clique em `Send` e a aplicação deve retornar a resposta corretamente.

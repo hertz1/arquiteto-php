@@ -1,0 +1,45 @@
+version: "3.7"
+services:
+  adressen:
+    container_name: adressen
+    build:
+      context: '.'
+      args:
+        uid: ${UID}
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - APACHE_RUN_USER=#${UID}
+      - APACHE_RUN_GROUP=#${UID}
+      - XDEBUG_CONFIG=idekey=PHPSTORM remote_enable=1 remote_host=192.168.25.22
+      - PHP_IDE_CONFIG=serverName=localhost
+
+  adressen_db:
+    container_name: adressen_db
+    image: mysql
+    volumes:
+      - mysql_storage:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: adressen
+      MYSQL_DATABASE: adressen
+      MYSQL_USER: adressen
+      MYSQL_PASSWORD: adressen
+
+  adressen_redis:
+    container_name: adressen_redis
+    image: redis:6-alpine
+    command: redis-server --requirepass adressen
+
+  composer:
+    image: composer
+    user: ${UID}
+    command: composer install --ignore-platform-reqs --no-interaction --no-plugins --no-scripts
+    volumes:
+      - ./:/app
+
+volumes:
+  mysql_storage: {}
